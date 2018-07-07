@@ -12,4 +12,4 @@ RUN apk update && \
 ADD . /opt/vtalks.net
 WORKDIR /opt/vtalks.net/web
 
-CMD ["sh"]
+CMD ["luigid"]
