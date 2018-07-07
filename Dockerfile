@@ -9,7 +9,7 @@ RUN apk update && \
   pip3 install -r /tmp/requirements.txt && \
   rm -rf /var/cache/apk/*
 
-ADD . /opt/vtalks.net
-WORKDIR /opt/vtalks.net/web
+ADD . /opt/pipeline
+WORKDIR /opt/pipeline
 
 CMD ["luigid"]
