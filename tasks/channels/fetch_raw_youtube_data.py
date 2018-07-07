@@ -17,6 +17,11 @@ class FetchRawYoutubeData(luigi.Task):
         channel_code = channel.get_channel_code(self.youtube_url)
 
         output_path = "/pipeline/data/youtube/channels/{:s}.json"
+
+        # Check output_path modification date
+        if self._is_outdated(output_path):
+            return False
+
         return luigi.LocalTarget(output_path.format(channel_code))
 
     def run(self):
@@ -28,6 +33,11 @@ class FetchRawYoutubeData(luigi.Task):
         youtube_json_data = channel.fetch_channel_data(youtube_api_token, channel_code)
         with self.output().open('w') as f:
             f.write(json.dumps(youtube_json_data))
+
+    def _is_outdated(self, output_path):
+        timestamp = os.path.getmtime(output_path)
+        print("Output modified {:d}".format(timestamp))
+        return False
 
 
 if __name__ == "__main__":
