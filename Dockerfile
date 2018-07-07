@@ -12,4 +12,4 @@ RUN apk update && \
 ADD . /opt/pipeline
 WORKDIR /opt/pipeline
 
-CMD ["start.sh"]
+CMD ["./start.sh"]

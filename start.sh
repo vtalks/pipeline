@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
-export PYTHONPATH=$PYTHONPATH:/opt/pipeline/tasks/
+source ./environment.sh
 luigid
