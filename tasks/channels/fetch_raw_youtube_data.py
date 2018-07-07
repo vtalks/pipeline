@@ -32,7 +32,7 @@ class FetchRawYoutubeData(luigi.Task):
     def run(self):
         youtube_api_token = os.getenv("YOUTUBE_API_KEY")
         channel_code = channel.get_channel_code(self.youtube_url)
-        
+
         youtube_json_data = channel.fetch_channel_data(youtube_api_token, channel_code)
         with self.output().open('w') as f:
             f.write(json.dumps(youtube_json_data))
