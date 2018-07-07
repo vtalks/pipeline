@@ -16,7 +16,7 @@ class FetchRawYoutubeData(luigi.Task):
     def output(self):
         channel_code = channel.get_channel_code(self.youtube_url)
 
-        output_path = "/data/youtube/channels/{:s}.json"
+        output_path = "/pipeline/data/youtube/channels/{:s}.json"
         return luigi.LocalTarget(output_path.format(channel_code))
 
     def run(self):
