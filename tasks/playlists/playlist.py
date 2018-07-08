@@ -28,7 +28,7 @@ class Playlist(luigi.Task):
             channel_youtube_url = channel.get_channel_youtube_url(channel_code)
             yield(fetch_channel_raw_youtube_data.FetchRawYoutubeData(channel_youtube_url))
 
-        # Fetch channel raw youtube videos
+        # Fetch playlist videos raw youtube data
         with self.input()['playlist_items'].open() as f:
             playlist_items = json.loads(f.read())
             for video_code in playlist_items:
