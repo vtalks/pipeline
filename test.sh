@@ -9,4 +9,4 @@
 # Workflows
 #
 # luigi --module tasks.playlists vtalks.playlists.Playlist --youtube-url https://www.youtube.com/playlist?list=PLMW8Xq7bXrG7XGG29sXso2hYYNW_14s_A
-luigi --module tasks.talks vtalks.talks.Talk --youtube-url https://www.youtube.com/watch?v=fV-phU9m9kg
+# luigi --module tasks.talks vtalks.talks.Talk --youtube-url https://www.youtube.com/watch?v=fV-phU9m9kg
