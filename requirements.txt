@@ -1,3 +1,2 @@
 luigi
 youtube_data_api3
-asyncio-nats-client
