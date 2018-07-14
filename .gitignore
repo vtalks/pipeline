@@ -107,3 +107,4 @@ venv.bak/
 /data
 /logs
 /luigi-task-history.db
+supervisord.pid
