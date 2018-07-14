@@ -40,11 +40,11 @@ async def run(loop):
         payload = msg.data.decode()
 
         msg = "Received a message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
-        logger.debug(msg)
+        logger.info(msg)
 
         if subject == "pipeline.talk":
             msg = "Handling subject:'{:s}'".format(subject)
-            logger.info(msg)
+            logger.debug(msg)
             talks.handle(payload)
         else:
             msg = "Unknown message subject:'{:s}, message won't be processed".format(subject)
@@ -67,7 +67,7 @@ async def run(loop):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     logger.info('Starting pipeline-scheduler ...')
 
     loop = asyncio.get_event_loop()

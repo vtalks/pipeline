@@ -17,5 +17,5 @@ def handle(payload):
              _out=buf,
              _err=err_buf)
 
-    logger.info(buf.getvalue())
-    logger.error(err_buf.getvalue())
+    logging.info(buf.getvalue())
+    logging.error(err_buf.getvalue())
