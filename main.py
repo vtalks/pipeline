@@ -2,6 +2,8 @@ import logging
 import asyncio
 import signal
 
+from handlers import talks
+
 from nats.aio.client import Client as NATS
 
 logger = logging.getLogger("pipeline-scheduler")
@@ -41,8 +43,9 @@ async def run(loop):
         logger.debug(msg)
 
         if subject == "pipeline.talk":
-            msg = "Handling subject:'{:s}, message won't be processed".format(subject)
+            msg = "Handling subject:'{:s}'".format(subject)
             logger.info(msg)
+            talks.handle(payload)
         else:
             msg = "Unknown message subject:'{:s}, message won't be processed".format(subject)
             logger.warning(msg)
