@@ -39,7 +39,7 @@ class FetchRawYoutubeData(luigi.Task):
 
     def _get_output_path(self):
         channel_code = channel.get_channel_code(self.youtube_url)
-        return "/pipeline/data/youtube/channels/{:s}.json".format(channel_code)
+        return "/opt/pipeline/data/youtube/channels/{:s}.json".format(channel_code)
 
     def _is_outdated(self):
         """ Check if output modification date is older than a day
