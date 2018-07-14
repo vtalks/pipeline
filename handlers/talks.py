@@ -12,8 +12,6 @@ def handle(payload):
 
     sh.luigi("--module", "tasks.talks",
              "vtalks.talks.Talk", "--youtube-url", payload,
-             _long_prefix="--",
-             _long_sep=" ",
              _out=buf,
              _err=err_buf)
 
