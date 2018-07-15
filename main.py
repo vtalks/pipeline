@@ -67,7 +67,6 @@ async def run(loop):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.WARNING)
     logger.info('Starting pipeline-scheduler ...')
 
     loop = asyncio.get_event_loop()

@@ -24,6 +24,9 @@ class Talk(luigi.Task):
             channel_youtube_url = channel.get_channel_youtube_url(channel_code)
             yield (fetch_channel_raw_youtube_data.FetchRawYoutubeData(channel_youtube_url))
 
+    def output(self):
+        pass
+
 
 if __name__ == "__main__":
     luigi.run()
