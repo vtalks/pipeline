@@ -45,7 +45,7 @@ class FetchRawYoutubeData(luigi.Task):
             self.playlist_code = playlist.get_playlist_code(self.youtube_url)
 
         output_path = "/opt/pipeline/data/youtube/playlists/{:s}.json".format(self.playlist_code)
-        
+
         return output_path
 
     def _is_outdated(self):
