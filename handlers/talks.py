@@ -4,7 +4,6 @@ from io import StringIO
 import sh
 
 logger = logging.getLogger(__name__)
-logging.getLogger(__name__).setLevel(level=logging.DEBUG)
 
 
 def handle(payload):

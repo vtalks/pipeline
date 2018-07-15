@@ -6,8 +6,7 @@ from . import fetch_playlist_raw_youtube_data
 from . import fetch_playlist_items_raw_youtube_data
 from ..channels import fetch_channel_raw_youtube_data
 
-logger = logging.getLogger(__name__)
-logging.getLogger(__name__).setLevel(level=logging.DEBUG)
+logging.getLogger('luigi-interface').setLevel(level=logging.WARNING)
 
 
 class Playlist(luigi.WrapperTask):
@@ -25,7 +24,6 @@ class Playlist(luigi.WrapperTask):
 
 
 if __name__ == "__main__":
-
     luigi.run()
 
 

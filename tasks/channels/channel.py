@@ -1,6 +1,10 @@
+import logging
+
 import luigi
 
 from ..channels import fetch_channel_raw_youtube_data
+
+logging.getLogger('luigi-interface').setLevel(level=logging.WARNING)
 
 
 class Channel(luigi.WrapperTask):

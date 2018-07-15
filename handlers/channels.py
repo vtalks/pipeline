@@ -4,7 +4,6 @@ from io import StringIO
 import sh
 
 logger = logging.getLogger(__name__)
-logging.getLogger(__name__).setLevel(level=logging.DEBUG)
 
 
 def handle(payload):
@@ -18,4 +17,3 @@ def handle(payload):
 
     logger.debug(buf.getvalue())
     logger.error(err_buf.getvalue())
-

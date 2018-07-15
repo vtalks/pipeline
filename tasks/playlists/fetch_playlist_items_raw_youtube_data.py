@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from datetime import datetime
 
 import luigi
@@ -8,6 +9,8 @@ from youtube_data_api3 import playlist
 from youtube_data_api3 import video
 
 from ..talks import talk
+
+logging.getLogger('luigi-interface').setLevel(level=logging.WARNING)
 
 
 class FetchRawYoutubeData(luigi.Task):
