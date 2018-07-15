@@ -3,7 +3,7 @@ from io import StringIO
 
 import sh
 
-logger = logging.getLogger("handlers-talk")
+logger = logging.getLogger(__name__)
 
 
 def handle(payload):
@@ -15,9 +15,6 @@ def handle(payload):
              _out=buf,
              _err=err_buf)
 
-    logging.getLogger("handlers-talk").setLevel(logging.DEBUG)
+    logger.debug(buf.getvalue())
+    logger.error(err_buf.getvalue())
 
-    logging.info(buf.getvalue())
-    logging.error(err_buf.getvalue())
-
-    logging.getLogger("handlers-talk").setLevel(logging.WARNING)

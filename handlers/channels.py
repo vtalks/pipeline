@@ -3,7 +3,7 @@ from io import StringIO
 
 import sh
 
-logger = logging.getLogger("handlers-channel")
+logger = logging.getLogger(__name__)
 
 
 def handle(payload):
@@ -15,5 +15,6 @@ def handle(payload):
              _out=buf,
              _err=err_buf)
 
-    logging.info(buf.getvalue())
-    logging.error(err_buf.getvalue())
+    logger.debug(buf.getvalue())
+    logger.error(err_buf.getvalue())
+
