@@ -5,8 +5,6 @@ import luigi
 from ..talks import fetch_talk_raw_youtube_data
 from ..channels import fetch_channel_raw_youtube_data
 
-logging.getLogger('luigi-interface').setLevel(level=logging.WARNING)
-
 
 class Talk(luigi.WrapperTask):
     youtube_url = luigi.Parameter(default="")

@@ -9,7 +9,6 @@ from handlers import playlists
 from nats.aio.client import Client as NATS
 
 logger = logging.getLogger('root')
-
 logging.getLogger('sh').setLevel(level=logging.WARNING)
 logging.getLogger('luigi-interface').setLevel(level=logging.WARNING)
 
@@ -82,6 +81,10 @@ async def run(loop):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     logger.info('Starting pipeline-scheduler ...')
+
+    formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+    for h in logging.getLogger('luigi-interface').handlers:
+        h.setFormatter(formatter)
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(run(loop))

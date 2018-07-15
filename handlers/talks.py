@@ -15,6 +15,4 @@ def handle(payload):
              _out=buf,
              _err=err_buf)
 
-    logger.debug(buf.getvalue())
-    logger.error(err_buf.getvalue())
 

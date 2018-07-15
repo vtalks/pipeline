@@ -14,7 +14,3 @@ def handle(payload):
              "vtalks.playlists.Playlist", "--workers", "5", "--youtube-url", payload,
              _out=buf,
              _err=err_buf)
-
-    logger.debug(buf.getvalue())
-    logger.error(err_buf.getvalue())
-
