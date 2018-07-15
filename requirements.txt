@@ -1,6 +1,6 @@
 requests
 asyncio-nats-client
-pip install git+https://github.com/spotify/luigi.git
+git+https://github.com/spotify/luigi.git
 youtube_data_api3
 sqlalchemy
 sh
