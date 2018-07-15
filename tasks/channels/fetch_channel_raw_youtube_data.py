@@ -10,6 +10,8 @@ from youtube_data_api3 import video
 
 
 class FetchRawYoutubeData(luigi.Task):
+    priority = 100
+
     youtube_url = luigi.Parameter(default="")
     playlist_youtube_url = luigi.Parameter(default="")
     talk_youtube_url = luigi.Parameter(default="")

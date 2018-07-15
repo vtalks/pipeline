@@ -4,6 +4,7 @@ from io import StringIO
 import sh
 
 logger = logging.getLogger(__name__)
+logging.getLogger(__name__).setLevel(level=logging.DEBUG)
 
 
 def handle(payload):
@@ -11,7 +12,7 @@ def handle(payload):
     err_buf = StringIO()
 
     sh.luigi("--module", "tasks.talks",
-             "vtalks.talks.Talk", "--youtube-url", payload,
+             "vtalks.talks.Talk", "--workers", "5", "--youtube-url", payload,
              _out=buf,
              _err=err_buf)
 

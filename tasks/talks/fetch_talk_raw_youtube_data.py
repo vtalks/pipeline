@@ -8,7 +8,10 @@ from youtube_data_api3 import video
 
 
 class FetchRawYoutubeData(luigi.Task):
+    priority = 80
+
     youtube_url = luigi.Parameter(default="")
+    youtube_playlist_url = luigi.Parameter(default="")
 
     video_code = ""
 

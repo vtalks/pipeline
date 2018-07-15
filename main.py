@@ -9,6 +9,7 @@ from handlers import playlists
 from nats.aio.client import Client as NATS
 
 logger = logging.getLogger(__name__)
+logging.getLogger(__name__).setLevel(level=logging.DEBUG)
 
 
 async def run(loop):
