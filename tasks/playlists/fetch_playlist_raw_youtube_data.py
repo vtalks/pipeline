@@ -10,6 +10,7 @@ from youtube_data_api3 import playlist
 class FetchRawYoutubeData(luigi.Task):
     youtube_url = luigi.Parameter(default="")
     talk_youtube_url = luigi.Parameter(default="")
+
     playlist_code = ""
 
     task_namespace = 'vtalks.playlists'

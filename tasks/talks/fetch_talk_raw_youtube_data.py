@@ -9,6 +9,7 @@ from youtube_data_api3 import video
 
 class FetchRawYoutubeData(luigi.Task):
     youtube_url = luigi.Parameter(default="")
+
     video_code = ""
 
     task_namespace = 'vtalks.talks'
@@ -40,8 +41,12 @@ class FetchRawYoutubeData(luigi.Task):
             f.write(json.dumps(youtube_json_data))
 
     def _get_output_path(self):
-        self.video_code = video.get_video_code(self.youtube_url)
-        return "/opt/pipeline/data/youtube/talks/{:s}.json".format(self.video_code)
+        if self.youtube_url != "":
+            self.video_code = video.get_video_code(self.youtube_url)
+
+        output_path = "/opt/pipeline/data/youtube/talks/{:s}.json".format(self.video_code)
+
+        return output_path
 
     def _is_outdated(self):
         """ Check if output modification date is older than a day

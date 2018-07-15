@@ -5,12 +5,15 @@ from datetime import datetime
 import luigi
 
 from youtube_data_api3 import channel
+from youtube_data_api3 import playlist
 from youtube_data_api3 import video
 
 
 class FetchRawYoutubeData(luigi.Task):
     youtube_url = luigi.Parameter(default="")
+    playlist_youtube_url = luigi.Parameter(default="")
     talk_youtube_url = luigi.Parameter(default="")
+
     channel_code = ""
 
     task_namespace = 'vtalks.channels'
@@ -51,6 +54,15 @@ class FetchRawYoutubeData(luigi.Task):
                 with open(video_json_path, 'r') as f:
                     video_json_data = json.load(f)
                     self.channel_code = video_json_data["snippet"]["channelId"]
+                    f.close()
+
+        if self.playlist_youtube_url != "":
+            playlist_code = playlist.get_playlist_code(self.playlist_youtube_url)
+            playlist_json_path = "/opt/pipeline/data/youtube/playlists/{:s}.json".format(playlist_code)
+            if os.path.exists(playlist_json_path):
+                with open(playlist_json_path, 'r') as f:
+                    playlist_json_data = json.load(f)
+                    self.channel_code = playlist_json_data["snippet"]["channelId"]
                     f.close()
 
         output_path = "/opt/pipeline/data/youtube/channels/{:s}.json".format(self.channel_code)

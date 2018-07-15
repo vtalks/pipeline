@@ -3,6 +3,8 @@ import asyncio
 import signal
 
 from handlers import talks
+from handlers import channels
+from handlers import playlists
 
 from nats.aio.client import Client as NATS
 
@@ -44,8 +46,16 @@ async def run(loop):
 
         if subject == "pipeline.talk":
             msg = "Handling subject:'{:s}'".format(subject)
-            logger.debug(msg)
+            logger.info(msg)
             talks.handle(payload)
+        elif subject == "pipeline.channel":
+            msg = "Handling subject:'{:s}'".format(subject)
+            logger.info(msg)
+            channels.handle(payload)
+        elif subject == "pipeline.playlist":
+            msg = "Handling subject:'{:s}'".format(subject)
+            logger.info(msg)
+            playlists.handle(payload)
         else:
             msg = "Unknown message subject:'{:s}, message won't be processed".format(subject)
             logger.warning(msg)
