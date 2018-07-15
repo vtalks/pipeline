@@ -15,9 +15,9 @@ def handle(payload):
              _out=buf,
              _err=err_buf)
 
-    logger.setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.DEBUG)
 
     logging.info(buf.getvalue())
     logging.error(err_buf.getvalue())
 
-    logger.setLevel(logging.WARNING)
+    logging.getLogger().setLevel(logging.WARNING)
