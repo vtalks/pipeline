@@ -7,7 +7,7 @@ import luigi
 from youtube_data_api3 import playlist
 from youtube_data_api3 import video
 
-from ..talks import fetch_talk_raw_youtube_data
+from ..talks import talk
 
 
 class FetchRawYoutubeData(luigi.Task):
@@ -48,7 +48,7 @@ class FetchRawYoutubeData(luigi.Task):
 
         for talk_code in youtube_json_data:
             youtube_talk_url = video.get_video_youtube_url(talk_code)
-            yield fetch_talk_raw_youtube_data.FetchRawYoutubeData(youtube_url=youtube_talk_url)
+            yield talk.Talk(youtube_url=youtube_talk_url)
 
     def _get_output_path(self):
         if self.youtube_url != "":
