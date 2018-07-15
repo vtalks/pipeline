@@ -19,15 +19,11 @@ class FetchRawYoutubeData(luigi.Task):
         return luigi.LocalTarget(output_path)
 
     def complete(self):
-        is_complete = super(FetchRawYoutubeData, self).complete()
-        if not is_complete:
-            return False
-
         # Check output_path modification date
         if self._is_outdated():
-            is_complete = False
+            return False
 
-        return is_complete
+        return super(FetchRawYoutubeData, self).complete()
 
     def run(self):
         youtube_api_token = os.getenv("YOUTUBE_API_KEY")

@@ -8,7 +8,10 @@ from youtube_data_api3 import playlist
 
 
 class FetchRawYoutubeData(luigi.Task):
-    youtube_url = luigi.Parameter()
+    youtube_url = luigi.Parameter(default="")
+    talk_youtube_url = luigi.Parameter(default="")
+    playlist_code = ""
+
     task_namespace = 'vtalks.playlists'
 
     def requires(self):
@@ -19,27 +22,31 @@ class FetchRawYoutubeData(luigi.Task):
         return luigi.LocalTarget(output_path)
 
     def complete(self):
-        is_complete = super(FetchRawYoutubeData, self).complete()
-        if not is_complete:
+        # Check if output path exists
+        if not os.path.exists(self.output().path):
             return False
 
         # Check output_path modification date
         if self._is_outdated():
-            is_complete = False
+            return False
 
-        return is_complete
+        return super(FetchRawYoutubeData, self).complete()
 
     def run(self):
         youtube_api_token = os.getenv("YOUTUBE_API_KEY")
-        playlist_code = playlist.get_playlist_code(self.youtube_url)
+        self.playlist_code = playlist.get_playlist_code(self.youtube_url)
 
-        youtube_json_data = playlist.fetch_playlist_data(youtube_api_token, playlist_code)
+        youtube_json_data = playlist.fetch_playlist_data(youtube_api_token, self.playlist_code)
         with self.output().open('w') as f:
             f.write(json.dumps(youtube_json_data))
 
     def _get_output_path(self):
-        playlist_code = playlist.get_playlist_code(self.youtube_url)
-        return "/opt/pipeline/data/youtube/playlists/{:s}.json".format(playlist_code)
+        if self.youtube_url != "":
+            self.playlist_code = playlist.get_playlist_code(self.youtube_url)
+
+        output_path = "/opt/pipeline/data/youtube/playlists/{:s}.json".format(self.playlist_code)
+        
+        return output_path
 
     def _is_outdated(self):
         """ Check if output modification date is older than a day
