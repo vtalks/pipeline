@@ -1,16 +1,22 @@
+import asyncio
 import logging
-from io import StringIO
 
-import sh
+import luigi
+
+from tasks.playlists import playlist
 
 logger = logging.getLogger(__name__)
 
 
-def handle(payload):
-    buf = StringIO()
-    err_buf = StringIO()
+@asyncio.coroutine
+async def pipeline_playlist_message_handler(msg):
+    """ Playlist message handler for the data pipeline scheduler
+    """
+    subject = msg.subject
+    reply = msg.reply
+    payload = msg.data.decode()
 
-    sh.luigi("--module", "tasks.playlists",
-             "vtalks.playlists.Playlist", "--workers", "5", "--youtube-url", payload,
-             _out=buf,
-             _err=err_buf)
+    msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
+    logger.info(msg)
+
+    luigi.build([playlist.Playlist(youtube_url=payload), ])

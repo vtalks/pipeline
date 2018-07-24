@@ -2,16 +2,11 @@ import logging
 import asyncio
 import signal
 
-from handlers import talks
-from handlers import channels
-from handlers import playlists
+import handlers
 
 from nats.aio.client import Client as NATS
 
-logger = logging.getLogger('root')
-logging.getLogger('sh').setLevel(level=logging.WARNING)
-logging.getLogger('luigi-interface').setLevel(level=logging.WARNING)
-
+logger = logging.getLogger(__name__)
 
 async def run(loop):
     """ Asynchronous main entry point for the scheduler
@@ -21,7 +16,6 @@ async def run(loop):
     def closed_cb():
         """ Callback to close NATS client connection
         """
-        logger.info("Connection to NATS is closed.")
         yield from asyncio.sleep(0.1, loop=loop)
         loop.stop()
 
@@ -33,44 +27,16 @@ async def run(loop):
         "closed_cb": closed_cb,
     }
     await nc.connect(**options)
-    logger.debug("Connected to NATS")
 
-    @asyncio.coroutine
-    async def pipeline_message_handler(msg):
-        """ General message handler for the data pipeline scheduler
-        """
-        subject = msg.subject
-        reply = msg.reply
-        payload = msg.data.decode()
-
-        msg = "Received a message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
-        logger.info(msg)
-
-        if subject == "pipeline.talk":
-            msg = "Handling subject:'{:s}'".format(subject)
-            logger.info(msg)
-            talks.handle(payload)
-        elif subject == "pipeline.channel":
-            msg = "Handling subject:'{:s}'".format(subject)
-            logger.info(msg)
-            channels.handle(payload)
-        elif subject == "pipeline.playlist":
-            msg = "Handling subject:'{:s}'".format(subject)
-            logger.info(msg)
-            playlists.handle(payload)
-        else:
-            msg = "Unknown message subject:'{:s}, message won't be processed".format(subject)
-            logger.warning(msg)
-
-    # Subscription
-    await nc.subscribe("pipeline.*", cb=pipeline_message_handler)
-    logger.debug("Subscribed to pipeline.* messages")
+    # Subscriptions
+    # await nc.subscribe("pipeline.channel", cb=handlers.channels.pipeline_channel_message_handler)
+    # await nc.subscribe("pipeline.playlist", cb=handlers.playlists.pipeline_playlist_message_handler)
+    await nc.subscribe("pipeline.talk", cb=handlers.talks.pipeline_talk_message_handler)
 
     # Shutdown scheduler gracefully
     def signal_handler():
         if nc.is_closed:
             return
-        logger.debug("Disconnecting...")
         loop.create_task(nc.close())
 
     # Listen for signals to graceful shutdown
@@ -79,12 +45,8 @@ async def run(loop):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     logger.info('Starting pipeline-scheduler ...')
-
-    formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-    for h in logging.getLogger('luigi-interface').handlers:
-        h.setFormatter(formatter)
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(run(loop))

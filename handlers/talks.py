@@ -1,18 +1,22 @@
 import logging
-from io import StringIO
+import asyncio
 
-import sh
+import luigi
+
+from tasks import talks
 
 logger = logging.getLogger(__name__)
 
 
-def handle(payload):
-    buf = StringIO()
-    err_buf = StringIO()
+@asyncio.coroutine
+async def pipeline_talk_message_handler(msg):
+    """ Talk message handler for the data pipeline scheduler.
+    """
+    subject = msg.subject
+    reply = msg.reply
+    payload = msg.data.decode()
 
-    sh.luigi("--module", "tasks.talks",
-             "vtalks.talks.Talk", "--workers", "5", "--youtube-url", payload,
-             _out=buf,
-             _err=err_buf)
+    msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
+    logger.info(msg)
 
-
+    luigi.build([talks.wrappers.Complete(youtube_url=payload), ])

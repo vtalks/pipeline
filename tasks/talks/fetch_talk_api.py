@@ -1,18 +1,17 @@
 import os
 import json
-import logging
 from datetime import datetime
 
+import requests
 import luigi
 
 from youtube_data_api3 import video
 
 
-class FetchRawYoutubeData(luigi.Task):
+class FetchTalkAPIData(luigi.Task):
     priority = 80
 
     youtube_url = luigi.Parameter(default="")
-    youtube_playlist_url = luigi.Parameter(default="")
 
     video_code = ""
 
@@ -34,21 +33,16 @@ class FetchRawYoutubeData(luigi.Task):
         if self._is_outdated():
             return False
 
-        return super(FetchRawYoutubeData, self).complete()
+        return super(FetchTalkAPIData, self).complete()
 
     def run(self):
-        youtube_api_token = os.getenv("YOUTUBE_API_KEY")
-        self.video_code = video.get_video_code(self.youtube_url)
-
-        youtube_json_data = video.fetch_video_data(youtube_api_token, self.video_code)
+        api_json_data = self._fetch_video_data()
         with self.output().open('w') as f:
-            f.write(json.dumps(youtube_json_data))
+            f.write(json.dumps(api_json_data))
 
     def _get_output_path(self):
-        if self.youtube_url != "":
-            self.video_code = video.get_video_code(self.youtube_url)
-
-        output_path = "/opt/pipeline/data/youtube/talks/{:s}.json".format(self.video_code)
+        self.video_code = video.get_video_code(self.youtube_url)
+        output_path = "/opt/pipeline/data/vtalks/talks/{:s}.json".format(self.video_code)
 
         return output_path
 
@@ -58,8 +52,20 @@ class FetchRawYoutubeData(luigi.Task):
         timestamp = os.path.getmtime(self.output().path)
         updated = datetime.fromtimestamp(timestamp)
         d = datetime.now() - updated
-        is_outdated = d.total_seconds() > 86400    # one day
+        is_outdated = d.total_seconds() > 86400  # one day
         return is_outdated
+
+    def _fetch_video_data(self):
+        talk_url = "https://vtalks.net/api/talk/"
+        payload = {'code': self.video_code,}
+        resp = requests.get(talk_url, params=payload)
+        if resp.status_code != 200:
+            raise Exception('Error fetching video data "%s"' % resp.status_code)
+        response_json = resp.json()
+        video_data = None
+        if response_json["count"] > 0:
+            video_data = response_json["results"][0]
+        return video_data
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 import os
 import json
-import logging
 from datetime import datetime
 
 import luigi
@@ -9,7 +8,7 @@ from youtube_data_api3 import playlist
 
 
 class FetchRawYoutubeData(luigi.Task):
-    priority = 90
+    priority = 88
 
     youtube_url = luigi.Parameter(default="")
     talk_youtube_url = luigi.Parameter(default="")
