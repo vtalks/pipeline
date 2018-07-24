@@ -56,7 +56,7 @@ class FetchTalkAPIData(luigi.Task):
         return is_outdated
 
     def _fetch_video_data(self):
-        talk_url = "https://vtalks.net/api/talk/"
+        talk_url = "http://web:8000/api/talk/"
         payload = {'code': self.video_code,}
         resp = requests.get(talk_url, params=payload)
         if resp.status_code != 200:
