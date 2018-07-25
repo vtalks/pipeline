@@ -19,4 +19,4 @@ async def playlist_message_handler(msg):
     msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
     logger.info(msg)
 
-    luigi.build([tasks.playlists.Playlist(youtube_url=payload), ], log_level="DEBUG")
+    luigi.build([tasks.playlists.Playlist(youtube_url=payload), ], log_level="WARNING")
