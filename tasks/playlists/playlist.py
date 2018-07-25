@@ -24,7 +24,13 @@ class Playlist(luigi.Task):
         ]
 
     def complete(self):
-        return super(Playlist, self).complete()
+        is_completed = super(Playlist, self).complete()
+
+        for req in self.requires():
+            if not req.complete():
+                is_completed = False
+
+        return is_completed
 
 
 if __name__ == "__main__":
