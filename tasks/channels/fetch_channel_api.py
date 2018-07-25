@@ -16,7 +16,7 @@ class FetchChannelAPIData(luigi.Task):
 
     youtube_url = luigi.Parameter(default="")
 
-    video_code = ""
+    channel_code = ""
 
     task_namespace = 'vtalks.channels'
 

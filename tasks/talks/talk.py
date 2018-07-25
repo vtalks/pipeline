@@ -25,11 +25,7 @@ class Talk(luigi.Task):
         ]
 
     def complete(self):
-        is_complete = super(Talk, self).complete()
-        if not is_complete:
-            return False
-
-        return True
+        return super(Talk, self).complete()
 
 
 if __name__ == "__main__":

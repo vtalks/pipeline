@@ -24,11 +24,7 @@ class Channel(luigi.Task):
         ]
 
     def complete(self):
-        is_complete = super(Channel, self).complete()
-        if not is_complete:
-            return False
-
-        return True
+        return super(Channel, self).complete()
 
 
 if __name__ == "__main__":
