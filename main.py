@@ -9,7 +9,7 @@ from nats.aio.client import Client as NATS
 logger = logging.getLogger(__name__)
 
 
-async def run(loop):
+async def run(event_loop):
     """ Asynchronous main entry point for the scheduler
     """
 
@@ -17,7 +17,7 @@ async def run(loop):
     def closed_cb():
         """ Callback to close NATS client connection
         """
-        yield from asyncio.sleep(0.1, loop=loop)
+        yield from asyncio.sleep(0.1, loop=event_loop)
         loop.stop()
 
     # Connect to NATS
@@ -31,7 +31,7 @@ async def run(loop):
 
     # Subscriptions
     await nc.subscribe("pipeline.channel", cb=handlers.channels.pipeline_channel_message_handler)
-    # await nc.subscribe("pipeline.playlist", cb=handlers.playlists.pipeline_playlist_message_handler)
+    await nc.subscribe("pipeline.playlist", cb=handlers.playlists.pipeline_playlist_message_handler)
     await nc.subscribe("pipeline.talk", cb=handlers.talks.pipeline_talk_message_handler)
 
     # Shutdown scheduler gracefully
@@ -46,11 +46,11 @@ async def run(loop):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     logger.info('Starting pipeline-scheduler ...')
 
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(run(loop))
+    loop.run_until_complete(run(event_loop=loop))
     try:
         loop.run_forever()
     finally:

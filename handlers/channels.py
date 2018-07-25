@@ -19,4 +19,4 @@ async def pipeline_channel_message_handler(msg):
     msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
     logger.info(msg)
 
-    luigi.build([tasks.channels.Channel(youtube_url=payload), ])
+    luigi.build([tasks.channels.Channel(youtube_url=payload), ], log_level="WARNING")

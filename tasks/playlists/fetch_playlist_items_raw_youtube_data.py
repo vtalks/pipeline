@@ -8,6 +8,9 @@ import luigi
 from youtube_data_api3 import playlist
 from youtube_data_api3 import video
 
+logger = logging.getLogger(__name__)
+
+
 class FetchRawYoutubeData(luigi.Task):
     priority = 90
 

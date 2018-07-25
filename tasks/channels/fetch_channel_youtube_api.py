@@ -1,10 +1,13 @@
 import os
 import json
+import logging
 from datetime import datetime
 
 import luigi
 
 from youtube_data_api3 import channel
+
+logger = logging.getLogger(__name__)
 
 
 class FetchChannelYoutubeAPIData(luigi.Task):

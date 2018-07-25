@@ -3,7 +3,7 @@ import logging
 
 import luigi
 
-from tasks.playlists import playlist
+import tasks
 
 logger = logging.getLogger(__name__)
 
@@ -19,4 +19,4 @@ async def pipeline_playlist_message_handler(msg):
     msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
     logger.info(msg)
 
-    luigi.build([playlist.Playlist(youtube_url=payload), ])
+    luigi.build([tasks.playlists.Playlist(youtube_url=payload), ], log_level="WARNING")

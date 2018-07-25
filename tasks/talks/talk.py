@@ -1,7 +1,11 @@
+import logging
+
 import luigi
 
 from . import fetch_talk_api
 from . import fetch_talk_youtube_api
+
+logger = logging.getLogger(__name__)
 
 
 class Talk(luigi.Task):

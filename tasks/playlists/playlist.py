@@ -2,32 +2,21 @@ import logging
 
 import luigi
 
-from . import fetch_playlist_raw_youtube_data
-from . import fetch_playlist_items_raw_youtube_data
-from ..channels import fetch_channel_youtube_api
+logger = logging.getLogger(__name__)
 
 
-class Playlist(luigi.WrapperTask):
-    youtube_url = luigi.Parameter()
+class Playlist(luigi.Task):
+    priority = 90
+
+    youtube_url = luigi.Parameter(default="")
 
     task_namespace = 'vtalks.playlists'
 
     def requires(self):
-        outputs = [
-            fetch_playlist_raw_youtube_data.FetchRawYoutubeData(youtube_url=self.youtube_url),
-            fetch_playlist_items_raw_youtube_data.FetchRawYoutubeData(youtube_url=self.youtube_url),
-            fetch_channel_youtube_api.FetchRawYoutubeData(playlist_youtube_url=self.youtube_url),
+        return [
+
         ]
-        return outputs
 
 
 if __name__ == "__main__":
     luigi.run()
-
-
-
-
-
-
-
-

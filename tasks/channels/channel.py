@@ -1,7 +1,11 @@
+import logging
+
 import luigi
 
 from . import fetch_channel_api
 from . import fetch_channel_youtube_api
+
+logger = logging.getLogger(__name__)
 
 
 class Channel(luigi.Task):
