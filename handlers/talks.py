@@ -25,4 +25,4 @@ async def talk_message_handler(msg):
     msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
     logger.info(msg)
 
-    luigi.build([tasks.talks.Talk(youtube_url=payload), ], log_level="DEBUG")
+    luigi.build([tasks.talks.Talk(youtube_url=payload), ], log_level="WARNING")

@@ -45,8 +45,8 @@ class Talk(luigi.Task):
         }
 
     def run(self):
-        # self.log = logging.getLogger('luigi-interface')
-        # self.log.propagate = 0
+        self.log = logging.getLogger('luigi-interface')
+        self.log.propagate = 0
 
         talk_api_input = self.input()['talk_api']
         with talk_api_input.open('r') as f:
