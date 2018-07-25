@@ -1,1 +1,2 @@
-from . import dummy
+from . import talks
+from . import channels

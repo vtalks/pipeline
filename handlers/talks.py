@@ -1,9 +1,9 @@
-import logging
 import asyncio
+import logging
 
 import luigi
 
-from tasks import talks
+import tasks
 
 logger = logging.getLogger(__name__)
 
@@ -19,4 +19,4 @@ async def pipeline_talk_message_handler(msg):
     msg = "Received message subject:'{:s}' reply:'{:s}' payload:{:s}".format(subject, reply, payload)
     logger.info(msg)
 
-    luigi.build([talks.wrappers.Complete(youtube_url=payload), ])
+    luigi.build([tasks.talks.Talk(youtube_url=payload), ])

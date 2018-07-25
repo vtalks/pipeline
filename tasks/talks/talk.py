@@ -1,16 +1,16 @@
 import luigi
 
-from .. import fetch_talk_api
-from .. import fetch_talk_youtube_api
+from . import fetch_talk_api
+from . import fetch_talk_youtube_api
 
 
-class Complete(luigi.WrapperTask):
+class Talk(luigi.Task):
     """ Complete wrapper task executes all tasks and subtasks for the given
     talk url.
     """
     youtube_url = luigi.Parameter(default="")
 
-    task_namespace = 'vtalks.talks.wrappers'
+    task_namespace = 'vtalks.talks'
 
     def requires(self):
         return [

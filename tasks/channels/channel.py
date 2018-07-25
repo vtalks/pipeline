@@ -1,18 +1,22 @@
-import logging
-
 import luigi
 
-from ..channels import fetch_channel_raw_youtube_data
+from . import fetch_channel_api
+from . import fetch_channel_youtube_api
 
 
-class Channel(luigi.WrapperTask):
+class Channel(luigi.Task):
+    priority = 100
+
     youtube_url = luigi.Parameter(default="")
 
     task_namespace = 'vtalks.channels'
 
     def requires(self):
         return [
-            fetch_channel_raw_youtube_data.FetchRawYoutubeData(youtube_url=self.youtube_url),
+            # Fetch channel from api data
+            fetch_channel_api.FetchChannelAPIData(youtube_url=self.youtube_url),
+            # Fetch channel from youtube api data
+            fetch_channel_youtube_api.FetchChannelYoutubeAPIData(youtube_url=self.youtube_url),
         ]
 
 

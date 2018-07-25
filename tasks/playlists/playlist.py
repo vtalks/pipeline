@@ -4,7 +4,7 @@ import luigi
 
 from . import fetch_playlist_raw_youtube_data
 from . import fetch_playlist_items_raw_youtube_data
-from ..channels import fetch_channel_raw_youtube_data
+from ..channels import fetch_channel_youtube_api
 
 
 class Playlist(luigi.WrapperTask):
@@ -16,7 +16,7 @@ class Playlist(luigi.WrapperTask):
         outputs = [
             fetch_playlist_raw_youtube_data.FetchRawYoutubeData(youtube_url=self.youtube_url),
             fetch_playlist_items_raw_youtube_data.FetchRawYoutubeData(youtube_url=self.youtube_url),
-            fetch_channel_raw_youtube_data.FetchRawYoutubeData(playlist_youtube_url=self.youtube_url),
+            fetch_channel_youtube_api.FetchRawYoutubeData(playlist_youtube_url=self.youtube_url),
         ]
         return outputs
 

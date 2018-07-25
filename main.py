@@ -8,6 +8,7 @@ from nats.aio.client import Client as NATS
 
 logger = logging.getLogger(__name__)
 
+
 async def run(loop):
     """ Asynchronous main entry point for the scheduler
     """
@@ -29,7 +30,7 @@ async def run(loop):
     await nc.connect(**options)
 
     # Subscriptions
-    # await nc.subscribe("pipeline.channel", cb=handlers.channels.pipeline_channel_message_handler)
+    await nc.subscribe("pipeline.channel", cb=handlers.channels.pipeline_channel_message_handler)
     # await nc.subscribe("pipeline.playlist", cb=handlers.playlists.pipeline_playlist_message_handler)
     await nc.subscribe("pipeline.talk", cb=handlers.talks.pipeline_talk_message_handler)
 
