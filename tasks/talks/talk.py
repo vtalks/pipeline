@@ -104,7 +104,7 @@ class Talk(luigi.Task):
         return response_json
 
     def _fetch_playlist_data(self, playlist_id):
-        url = "http://web:8000/api/playlist/{:d}/".format(playlist_id)
+        url = "http://web:8000/api/playlists/{:d}/".format(playlist_id)
         resp = requests.get(url)
         if resp.status_code != 200:
             raise Exception('Error fetching channel data "%s"' % resp.status_code)
