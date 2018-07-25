@@ -1,57 +1,27 @@
 import logging
-import asyncio
-import signal
 
 import handlers
 
-from nats.aio.client import Client as NATS
+from scheduler import Scheduler
 
 logger = logging.getLogger(__name__)
 
 
-async def run(event_loop):
-    """ Asynchronous main entry point for the scheduler
-    """
-
-    @asyncio.coroutine
-    def closed_cb():
-        """ Callback to close NATS client connection
-        """
-        yield from asyncio.sleep(0.1, loop=event_loop)
-        loop.stop()
-
-    # Connect to NATS
-    nc = NATS()
-    options = {
-        "servers": ["nats://nats:4222"],
-        "io_loop": loop,
-        "closed_cb": closed_cb,
-    }
-    await nc.connect(**options)
-
-    # Subscriptions
-    await nc.subscribe("pipeline.channel", cb=handlers.channels.pipeline_channel_message_handler)
-    await nc.subscribe("pipeline.playlist", cb=handlers.playlists.pipeline_playlist_message_handler)
-    await nc.subscribe("pipeline.talk", cb=handlers.talks.pipeline_talk_message_handler)
-
-    # Shutdown scheduler gracefully
-    def signal_handler():
-        if nc.is_closed:
-            return
-        loop.create_task(nc.close())
-
-    # Listen for signals to graceful shutdown
-    for sig in ('SIGINT', 'SIGTERM'):
-        loop.add_signal_handler(getattr(signal, sig), signal_handler)
-
-
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    logger.info('Starting pipeline-scheduler ...')
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(run(event_loop=loop))
+    logger.info('Starting the pipeline-scheduler ...')
+    scheduler = Scheduler()
+    scheduler.event_loop.run_until_complete(scheduler.boostrap())
+
+    logger.info('Setup event subscriptions and message handlers ...')
+    scheduler.subscribe("pipeline.channel", handlers.channels.channel_message_handler)
+    scheduler.subscribe("pipeline.playlist", handlers.playlists.playlist_message_handler)
+    scheduler.subscribe("pipeline.talk", handlers.talks.talk_message_handler)
+
+    logger.info("Setup event dispatchers and message publishers ...")
+
     try:
-        loop.run_forever()
+        scheduler.event_loop.run_forever()
     finally:
-        loop.close()
+        scheduler.event_loop.close()

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 @asyncio.coroutine
-async def pipeline_playlist_message_handler(msg):
+async def playlist_message_handler(msg):
     """ Playlist message handler for the data pipeline scheduler
     """
     subject = msg.subject

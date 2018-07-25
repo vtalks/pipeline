@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 @asyncio.coroutine
-async def pipeline_talk_message_handler(msg):
+async def talk_message_handler(msg):
     """ Talk message handler for the data pipeline scheduler.
     """
     subject = msg.subject
