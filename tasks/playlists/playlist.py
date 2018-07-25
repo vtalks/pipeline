@@ -24,7 +24,7 @@ class Playlist(luigi.Task):
         ]
 
     def complete(self):
-        is_completed = super(Playlist, self).complete()
+        is_completed = True
 
         for req in self.requires():
             if not req.complete():

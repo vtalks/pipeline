@@ -24,7 +24,7 @@ class Talk(luigi.Task):
         ]
 
     def complete(self):
-        is_completed = super(Talk, self).complete()
+        is_completed = True
 
         for req in self.requires():
             if not req.complete():

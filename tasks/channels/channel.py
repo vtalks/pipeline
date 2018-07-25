@@ -24,7 +24,7 @@ class Channel(luigi.Task):
         ]
 
     def complete(self):
-        is_completed = super(Channel, self).complete()
+        is_completed = True
 
         for req in self.requires():
             if not req.complete():
