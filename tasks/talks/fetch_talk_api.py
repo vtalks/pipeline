@@ -12,8 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 class FetchTalkAPIData(luigi.Task):
-    priority = 80
-
     youtube_url = luigi.Parameter(default="")
 
     video_code = ""

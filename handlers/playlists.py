@@ -10,7 +10,13 @@ logger = logging.getLogger(__name__)
 
 @asyncio.coroutine
 async def playlist_message_handler(msg):
-    """ Playlist message handler for the data pipeline scheduler
+    """ Playlist message handler for the evented data pipeline scheduler.
+
+    Creates a subscription in to the broker listening for messages with subject
+    'pipeline.playlist'.
+
+    When a valid message is received by the subscription it triggers a luigid
+    'tasks.playlist.Playlist' task passing the message payload as an argument.
     """
     subject = msg.subject
     reply = msg.reply

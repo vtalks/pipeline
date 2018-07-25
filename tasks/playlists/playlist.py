@@ -10,8 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class Playlist(luigi.Task):
-    priority = 90
-
     youtube_url = luigi.Parameter(default="")
 
     task_namespace = 'vtalks.playlists'

@@ -9,8 +9,6 @@ logger = logging.getLogger(__name__)
 
 
 class Channel(luigi.Task):
-    priority = 100
-
     youtube_url = luigi.Parameter(default="")
 
     task_namespace = 'vtalks.channels'

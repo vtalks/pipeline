@@ -11,8 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 class FetchChannelYoutubeAPIData(luigi.Task):
-    priority = 100
-
     youtube_url = luigi.Parameter(default="")
 
     channel_code = ""

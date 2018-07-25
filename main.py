@@ -9,7 +9,6 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-
     logger.info('Starting the pipeline-scheduler ...')
     scheduler = Scheduler()
     scheduler.event_loop.run_until_complete(scheduler.boostrap())

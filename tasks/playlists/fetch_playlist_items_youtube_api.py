@@ -11,8 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 class FetchPlaylistItemsYoutubeAPIData(luigi.Task):
-    priority = 90
-
     youtube_url = luigi.Parameter()
 
     playlist_code = ""

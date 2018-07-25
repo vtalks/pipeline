@@ -10,7 +10,13 @@ logger = logging.getLogger(__name__)
 
 @asyncio.coroutine
 async def channel_message_handler(msg):
-    """ Channel message handler for the data pipeline scheduler.
+    """ Channel event message handler for the evented data pipeline scheduler.
+
+    Creates a subscription in to the broker listening for messages with subject
+    'pipeline.channel'.
+
+    When a valid message is received by the subscription it triggers a luigid
+    'tasks.playlist.Channel' task passing the message payload as an argument.
     """
     subject = msg.subject
     reply = msg.reply
