@@ -4,6 +4,7 @@ import luigi
 
 from . import fetch_playlist_api
 from . import fetch_playlist_youtube_api
+from . import fetch_playlist_items_youtube_api
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,8 @@ class Playlist(luigi.Task):
             fetch_playlist_api.FetchPlaylistAPIData(youtube_url=self.youtube_url),
             # Fetch playlist from youtube api data
             fetch_playlist_youtube_api.FetchPlaylistYoutubeAPIData(youtube_url=self.youtube_url),
+            # Fetch playlist items from youtube api data
+            fetch_playlist_items_youtube_api.FetchPlaylistItemsYoutubeAPIData(youtube_url=self.youtube_url),
         ]
 
     def complete(self):

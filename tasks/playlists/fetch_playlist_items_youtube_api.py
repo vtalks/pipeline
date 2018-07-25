@@ -6,12 +6,11 @@ from datetime import datetime
 import luigi
 
 from youtube_data_api3 import playlist
-from youtube_data_api3 import video
 
 logger = logging.getLogger(__name__)
 
 
-class FetchRawYoutubeData(luigi.Task):
+class FetchPlaylistItemsYoutubeAPIData(luigi.Task):
     priority = 90
 
     youtube_url = luigi.Parameter()
@@ -36,25 +35,24 @@ class FetchRawYoutubeData(luigi.Task):
         if self._is_outdated():
             return False
 
-        return super(FetchRawYoutubeData, self).complete()
+        return super(FetchPlaylistItemsYoutubeAPIData, self).complete()
 
     def run(self):
         youtube_api_token = os.getenv("YOUTUBE_API_KEY")
-
-        self.playlist_code = playlist.get_playlist_code(self.youtube_url)
 
         youtube_json_data = playlist.fetch_playlist_items(youtube_api_token, self.playlist_code)
         with self.output().open('w') as f:
             f.write(json.dumps(youtube_json_data))
 
+        """
+        # Execute task vtalks.talks.Talk for each playlist item
         for talk_code in youtube_json_data:
             youtube_talk_url = video.get_video_youtube_url(talk_code)
-            # yield talk.Talk(youtube_url=youtube_talk_url)
+            yield talk.Talk(youtube_url=youtube_talk_url)
+        """
 
     def _get_output_path(self):
-        if self.youtube_url != "":
-            self.playlist_code = playlist.get_playlist_code(self.youtube_url)
-
+        self.playlist_code = playlist.get_playlist_code(self.youtube_url)
         output_path = "/opt/pipeline/data/youtube/playlists_items/{:s}.json".format(self.playlist_code)
 
         return output_path
