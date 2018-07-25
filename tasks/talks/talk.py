@@ -116,7 +116,7 @@ class Talk(luigi.Task):
         return output_path
 
     def _get_playlist_api_output_path(self):
-        output_path = "/opt/pipeline/data/vtalks/playlist/{:s}.json".format(self.playlist_code)
+        output_path = "/opt/pipeline/data/vtalks/playlists/{:s}.json".format(self.playlist_code)
         return output_path
 
     def _is_outdated(self, path):
