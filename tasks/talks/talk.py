@@ -24,6 +24,13 @@ class Talk(luigi.Task):
             fetch_talk_youtube_api.FetchTalkYoutubeAPIData(youtube_url=self.youtube_url),
         ]
 
+    def complete(self):
+        is_complete = super(Talk, self).complete()
+        if not is_complete:
+            return False
+
+        return True
+
 
 if __name__ == "__main__":
     luigi.run()

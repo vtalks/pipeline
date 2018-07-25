@@ -14,8 +14,14 @@ class Playlist(luigi.Task):
 
     def requires(self):
         return [
-
         ]
+
+    def complete(self):
+        is_complete = super(Playlist, self).complete()
+        if not is_complete:
+            return False
+
+        return True
 
 
 if __name__ == "__main__":

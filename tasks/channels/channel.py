@@ -23,6 +23,13 @@ class Channel(luigi.Task):
             fetch_channel_youtube_api.FetchChannelYoutubeAPIData(youtube_url=self.youtube_url),
         ]
 
+    def complete(self):
+        is_complete = super(Channel, self).complete()
+        if not is_complete:
+            return False
+
+        return True
+
 
 if __name__ == "__main__":
     luigi.run()
