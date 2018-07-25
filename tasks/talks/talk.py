@@ -9,9 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 class Talk(luigi.Task):
-    """ Complete wrapper task executes all tasks and subtasks for the given
-    talk url.
-    """
+    priority = 80
+
     youtube_url = luigi.Parameter(default="")
 
     task_namespace = 'vtalks.talks'

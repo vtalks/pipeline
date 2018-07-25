@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class FetchPlaylistAPIData(luigi.Task):
-    priority = 80
+    priority = 90
 
     youtube_url = luigi.Parameter(default="")
 

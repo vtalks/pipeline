@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class FetchChannelAPIData(luigi.Task):
-    priority = 80
+    priority = 100
 
     youtube_url = luigi.Parameter(default="")
 
